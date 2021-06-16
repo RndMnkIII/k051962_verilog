@@ -1,6 +1,6 @@
 # k051962_verilog
 
-![](/k051962_verilog/img/konami_051962.jpg?raw=true "051962")
+!["051962"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/konami_051962.jpg)
 
 This is a preliminar simulation written in Verilog for the Konami k051962 Tile Layer Generator
 used in many Konami arcade game machines at the end of 80's and beginning of 90's. This is used together
