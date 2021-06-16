@@ -9,6 +9,20 @@ trace the internal channeled gate array structure of this IC and identify the fu
 
 https://github.com/furrtek/VGChips/tree/master/Konami
 
+## Usage:
+You need to have installed Icarus verilog and GTKWave in your system (Linux/MacOS/Windows/WSL2).
+
+Open a terminal and run:
+
+```
+iverilog -o k051962_CLOCKS_tb.vvp k051962_CLOCKS_tb.v k051962.V vc_in.v fujitsu_AV_UnitCellLibrary_DLY.v
+vvp k051962_CLOCKS_tb.vvp -lxt2
+gtkwave k051962_CLOCKS_tb.lxt&
+```
+You can store your gtkwave signals layout as a *.gtkw file.
+
+Any suggestion or improvement will be welcome!
+
 
 
 
