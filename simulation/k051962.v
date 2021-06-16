@@ -7,7 +7,6 @@
  * Version: 1.0 16/06/2021                                       *
  ****************************************************************/
 
-//Marking unimpleted wire as Euro symbol €
 `define MODEL_DLY 1
 `include "fujitsu_AV_delay_defs.v"
 `default_nettype none
