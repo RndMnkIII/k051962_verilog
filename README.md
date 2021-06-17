@@ -15,7 +15,7 @@ You need to have installed Icarus verilog and GTKWave in your system (Linux/MacO
 Open a terminal and run:
 
 ```
-iverilog -o k051962_CLOCKS_tb.vvp k051962_CLOCKS_tb.v k051962.V vc_in.v fujitsu_AV_UnitCellLibrary_DLY.v
+iverilog -o k051962_CLOCKS_tb.vvp k051962_CLOCKS_tb.v k051962.v vc_in.v fujitsu_AV_UnitCellLibrary_DLY.v
 vvp k051962_CLOCKS_tb.vvp -lxt2
 gtkwave k051962_CLOCKS_tb.lxt&
 ```
