@@ -1,18 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.107 (w)1999-2020 BSI
-[*] Mon Jun 21 18:28:56 2021
+[*] Mon Jun 21 18:40:25 2021
 [*]
 [dumpfile] "/Users/javier/ARCADE_PCB/k051962_verilog/simulation/k051962_GFX_ROM_interface_tb.lxt"
-[dumpfile_mtime] "Mon Jun 21 18:24:04 2021"
-[dumpfile_size] 1091256
+[dumpfile_mtime] "Mon Jun 21 18:34:53 2021"
+[dumpfile_size] 1095532
 [savefile] "/Users/javier/ARCADE_PCB/k051962_verilog/simulation/k051962_GFX_ROM_interface_tb.gtkw"
 [timestart] 0
 [size] 1920 1027
 [pos] -1 -1
-*-20.000000 833000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-19.000000 392919 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] k051962_GFX_ROM_interface_tb.
 [sst_width] 41
-[signals_width] 214
+[signals_width] 282
 [sst_expanded] 0
 [sst_vpaned_height] 308
 @200
@@ -37,25 +37,43 @@ k051962_GFX_ROM_interface_tb.M6[0]
 @22
 k051962_GFX_ROM_interface_tb.UUT.VC[31:0]
 k051962_GFX_ROM_interface_tb.UUT.VC_IN[31:0]
-k051962_GFX_ROM_interface_tb.fix_data[3:0]
-@23
-k051962_GFX_ROM_interface_tb.fix_data2[3:0]
+@29
+k051962_GFX_ROM_interface_tb.clk24[0]
+@22
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data0[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data1[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data2[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data3[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data4[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data5[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data6[3:0]
+[color] 6
+k051962_GFX_ROM_interface_tb.pix_data7[3:0]
 @200
 -
 @28
 k051962_GFX_ROM_interface_tb.NHSY[0]
 k051962_GFX_ROM_interface_tb.NVSY[0]
-k051962_GFX_ROM_interface_tb.NHSY[0]
 k051962_GFX_ROM_interface_tb.NFIC[0]
 @22
+[color] 2
 k051962_GFX_ROM_interface_tb.DFI[7:0]
 @28
 k051962_GFX_ROM_interface_tb.NSAC[0]
 @22
+[color] 4
 k051962_GFX_ROM_interface_tb.DSA[11:0]
 @28
 k051962_GFX_ROM_interface_tb.NSBC[0]
 @22
+[color] 3
 k051962_GFX_ROM_interface_tb.DSB[11:0]
 [pattern_trace] 1
 [pattern_trace] 0

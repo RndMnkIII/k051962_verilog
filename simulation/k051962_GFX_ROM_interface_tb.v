@@ -78,9 +78,15 @@ module k051962_GFX_ROM_interface_tb;
     assign H18n= ~ADDR[18]; //Upper half
     assign VC = DATA; //ROM data to k051962
 
-    wire [3:0] fix_data, fix_data2;
-    assign fix_data = { DATA[0], DATA[8], DATA[16], DATA[24]};
-    assign fix_data2 = { DATA[24], DATA[16], DATA[8], DATA[0]};
+    wire [3:0] pix_data0, pix_data1, pix_data2, pix_data3, pix_data4, pix_data5, pix_data6, pix_data7;
+    assign pix_data0 = { DATA[24], DATA[16], DATA[8], DATA[0]};
+    assign pix_data1 = { DATA[25], DATA[17], DATA[9], DATA[1]};
+    assign pix_data2 = { DATA[26], DATA[18], DATA[10], DATA[2]};
+    assign pix_data3 = { DATA[27], DATA[19], DATA[11], DATA[3]};
+    assign pix_data4 = { DATA[28], DATA[20], DATA[12], DATA[4]};
+    assign pix_data5 = { DATA[29], DATA[21], DATA[13], DATA[5]};
+    assign pix_data6 = { DATA[30], DATA[22], DATA[14], DATA[6]};
+    assign pix_data7 = { DATA[31], DATA[23], DATA[15], DATA[7]};
 
     //*** Lower Half GFX ***
     GFX_ROM_K19 GFX_LW_1(.ADDR(ADDR[17:0]), .CEn(CEn), .OEn(H18), .DATA(DATA[31:16]));
