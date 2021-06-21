@@ -37,6 +37,7 @@ iverilog -o k051962_GFX_ROM_interface_tb.vvp k051962_GFX_ROM_interface_tb.v gfx_
 vvp k051962_GFX_ROM_interface_tb.vvp -lxt2
 gtkwave k051962_GFX_ROM_interface_tb.lxt&
 ```
+load the `k051962_GFX_ROM_interface_tb.gtkw` file into GTKWave to show a layout with signals of interest.
 
 !["GFX Data to k051962 Test Bench"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/gtkwave_GFX_DATA_TO_K051962_TESTBENCH.png)
 
