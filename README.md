@@ -31,6 +31,15 @@ gtkwave gfx_rom_tb.lxt&
 
 !["GFX Tile ROMs Test Bench"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/gtkwave_GFX_TILE_ROMS_DATA_TESTBENCH.png)
 
+## GFX Tile ROM data to k051962 simulation:
+```
+iverilog -o k051962_GFX_ROM_interface_tb.vvp k051962_GFX_ROM_interface_tb.v gfx_rom.v k051962.v vc_in.v fujitsu_AV_UnitCellLibrary_DLY.v
+vvp k051962_GFX_ROM_interface_tb.vvp -lxt2
+gtkwave k051962_GFX_ROM_interface_tb.lxt&
+```
+
+!["GFX Data to k051962 Test Bench"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/gtkwave_GFX_DATA_TO_K051962_TESTBENCH.png)
+
 Any suggestion or improvement will be welcome!
 
 
