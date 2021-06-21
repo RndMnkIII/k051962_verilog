@@ -1,0 +1,27 @@
+[*]
+[*] GTKWave Analyzer v3.3.107 (w)1999-2020 BSI
+[*] Mon Jun 21 16:56:43 2021
+[*]
+[dumpfile] "/Users/javier/ARCADE_PCB/k051962_verilog/simulation/gfx_rom_tb.lxt"
+[dumpfile_mtime] "Mon Jun 21 16:55:51 2021"
+[dumpfile_size] 559
+[savefile] "/Users/javier/ARCADE_PCB/k051962_verilog/simulation/GFX_ROM_TILES.gtkw"
+[timestart] 0
+[size] 1920 1080
+[pos] -1 -26
+*-20.000000 28000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 193
+[signals_width] 279
+[sst_expanded] 1
+[sst_vpaned_height] 335
+@22
+gfx_rom_tb.ADDR[18:0]
+@28
+gfx_rom_tb.CEn[0]
+gfx_rom_tb.H18[0]
+@29
+gfx_rom_tb.H18n[0]
+@22
+gfx_rom_tb.DATA[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
