@@ -1,0 +1,10 @@
+echo "# k051962_verilog" >> README.md
+git init
+git add README.md
+git add docs
+git add simulation
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:RndMnkIII/k051962_verilog.git
+git push -u origin main
+
