@@ -22,7 +22,7 @@ gtkwave k051962_CLOCKS_tb.lxt&
 You can store your gtkwave signals layout as a *.gtkw file.
 
 
-*** GFX ROM simulation:
+## GFX ROM simulation:
 ```
 iverilog -o gfx_rom_tb.vvp gfx_rom_tb.v gfx_rom.v
 vvp gfx_rom_tb.vvp -lxt2
