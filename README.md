@@ -29,6 +29,8 @@ vvp gfx_rom_tb.vvp -lxt2
 gtkwave gfx_rom_tb.lxt&
 ```
 
+!["GFX Tile ROMs Test Bench"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/gtkwave_GFX_TILE_ROMS_DATA_TESTBENCH.png)
+
 Any suggestion or improvement will be welcome!
 
 
