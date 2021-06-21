@@ -59,8 +59,8 @@ module k051962_GFX_ROM_interface_tb;
     assign input_byte = DB;
     assign DB = (~CRCS & RMRD) ? output_byte : 8'hZZ;
 
-    assign input_dword = VC;
-    assign VC = (NRD & RMRD) ? output_dword : 32'hZZZZZZZZ; //when Z VC acts as INPUT, in the other case as OUPUT
+    //assign input_dword = VC;
+    //assign VC = (NRD & RMRD) ? output_dword : 32'hZZZZZZZZ; //when Z VC acts as INPUT, in the other case as OUPUT
 
     wire RST; //Delayed RES signal
     wire NSBC;
@@ -77,6 +77,10 @@ module k051962_GFX_ROM_interface_tb;
     assign H18= ADDR[18]; //Lower half
     assign H18n= ~ADDR[18]; //Upper half
     assign VC = DATA; //ROM data to k051962
+
+    wire [3:0] fix_data, fix_data2;
+    assign fix_data = { DATA[0], DATA[8], DATA[16], DATA[24]};
+    assign fix_data2 = { DATA[24], DATA[16], DATA[8], DATA[0]};
 
     //*** Lower Half GFX ***
     GFX_ROM_K19 GFX_LW_1(.ADDR(ADDR[17:0]), .CEn(CEn), .OEn(H18), .DATA(DATA[31:16]));
@@ -169,6 +173,13 @@ module k051962_GFX_ROM_interface_tb;
             #333.334;
             ADDR = 19'h4001F; CEn=0;
             #333.334;
+            ADDR = 19'h00020; CEn=0;
+
+            repeat (1000) begin
+                #333.334;
+                ADDR = ADDR + 19'h00001;
+            end
+
             $finish;
         end
 endmodule
