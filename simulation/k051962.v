@@ -238,10 +238,10 @@ module k051962_DLY (
     /**************************************************************/
 
     wire X90; //Logic Cell V1N
-    assign #0.55 X90 = Z99_QA_BUF;
+    assign #0.55 X90 = ~Z99_QA_BUF;
 
     wire X88; //Logic Cell V1N
-    assign #0.55 X88 = Z99_QB;
+    assign #0.55 X88 = ~Z99_QB;
     
     //Y93 comes from SCROLLING section
     wire X145; //Logic Cell N3P
