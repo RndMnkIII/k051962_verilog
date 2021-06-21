@@ -7,7 +7,7 @@
  * Version: 1.0 16/06/2021 Preliminar                           *
  ***************************************************************/
 //Test Bench Usage:
-//iverilog -o k051962_CLOCKS_tb.vvp k051962_CLOCKS_tb.v k051962.V vc_in.v fujitsu_AV_UnitCellLibrary_DLY.v
+//iverilog -o k051962_CLOCKS_tb.vvp k051962_CLOCKS_tb.v k051962.v vc_in.v fujitsu_AV_UnitCellLibrary_DLY.v
 //vvp k051962_CLOCKS_tb.vvp -lxt2
 //gtkwave k051962_CLOCKS_tb.lxt&
 
