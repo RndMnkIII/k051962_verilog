@@ -145,6 +145,7 @@ module k051962_GFX_ROM_interface_tb;
     //24MHz master clock
     reg clk24 = 0;
     always #mc_hp clk24 = !clk24;
+    always #mc_p
 
     //Testing timing signals
      initial 

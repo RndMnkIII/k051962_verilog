@@ -194,10 +194,10 @@ module FDM_DLY 	( input D,
               output reg Q,
               output Qn);
 	
-    assign #0.55 Qn = ~Q;
+    assign Qn = ~Q;
 
 	always @ (posedge CK) 
-        Q <= #5.96 D;
+        Q <= #4.96 D; //5.96
 endmodule
 
 //Cell Name: FDN

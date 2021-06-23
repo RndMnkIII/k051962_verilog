@@ -17,9 +17,9 @@
 
     //Stage 1
     wire V1N_ST1A; //Logic Cell V1N
-    assign #0.55 V1N_ST1A = ~ SEL1;
+    assign #0.55 V1N_ST1A = ~SEL1;
     wire V1N_ST1B; //Logic Cell V1N
-    assign #0.55 V1N_ST1B = ~ V1N_ST1A;
+    assign #0.55 V1N_ST1B = ~V1N_ST1A;
 
     wire D24ST1_X;
     D24_DLY d24st1(.A1(FDMST1_Qn), .A2(V1N_ST1B), .B1(DIN), .B2(V1N_ST1A), .X(D24ST1_X));
@@ -46,7 +46,7 @@
     wire D24ST3_X;
     D24_DLY d24st3(.A1(FDMST3_Qn), .A2(V1N_ST3B), .B1(FDMST2_Qn), .B2(V1N_ST3A), .X(D24ST3_X));
     wire FDMST3_Qn;
-    FDM_DLY fdmst3(.D(D24ST3_X), .CK(CK), .Qn(FDMST3_Qn));
+    FDM_DLY fdmst3(.D(D24ST3_X), .CK(CK), .Qn(FDMST3_Qn)); //Bug: never sets to any value in iverilog simulation
 
     assign DOUT = FDMST3_Qn;
 endmodule

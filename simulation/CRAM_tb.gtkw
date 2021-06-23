@@ -1,0 +1,30 @@
+[*]
+[*] GTKWave Analyzer v3.3.107 (w)1999-2020 BSI
+[*] Wed Jun 23 17:18:54 2021
+[*]
+[dumpfile] "/Users/javier/ARCADE_PCB/k051962_verilog/simulation/CRAM_tb.lxt"
+[dumpfile_mtime] "Wed Jun 23 17:17:19 2021"
+[dumpfile_size] 383
+[savefile] "/Users/javier/ARCADE_PCB/k051962_verilog/simulation/CRAM_tb.gtkw"
+[timestart] 0
+[size] 1486 600
+[pos] -1 -1
+*-16.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 193
+[signals_width] 150
+[sst_expanded] 1
+[sst_vpaned_height] 167
+@22
+CRAM_tb.ADDR[8:0]
+@28
+CRAM_tb.OE1n[0]
+CRAM_tb.OE2n[0]
+CRAM_tb.WE1n[0]
+CRAM_tb.WE2n[0]
+@22
+CRAM_tb.data_e14[7:0]
+CRAM_tb.data_e15[7:0]
+@23
+CRAM_tb.write_data[7:0]
+[pattern_trace] 1
+[pattern_trace] 0
