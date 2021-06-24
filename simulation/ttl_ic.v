@@ -56,8 +56,8 @@ module ttl_74245( inout [7:0] A,
     wire ena_AtoB;
     wire ena_BtoA;
 
-    assign ena_AtoB = DIR & !OEn;
-    assign ena_BtoA = !DIR & !OEn;
+    assign ena_AtoB = DIR & ~OEn;
+    assign ena_BtoA = ~DIR & ~OEn;
 
     assign #8 A =(ena_AtoB) ? B : 8'bz;
     assign #8 B =(ena_BtoA) ? A : 8'bz;
