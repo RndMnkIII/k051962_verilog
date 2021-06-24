@@ -65,7 +65,7 @@ module color_mixer(
                                               FI[0], OBJ[0], SB[0], SA[0],}), //31:0
                                        .Y(PRIO_OUT));
     wire OBJ_PAL_SEL; //LS08: seleccionamos cuando utilizamos los 256 colores de paleta mas altos para los sprites
-    assign #5 OBJ_PAL_SEL = !H14_Q0 & H14_Q1;
+    assign #5 OBJ_PAL_SEL = ~H14_Q0 & H14_Q1;
 
     //Register the selected color index (LS174 DFFs and blanking signal
     reg [8:0] CC_R;
@@ -92,7 +92,7 @@ module color_mixer(
     
     ttl_74157 CPU_PRIO_SEL #(BLOCKS = 12)(.ENn(1'b0),
                                           .SEL({CRAMCS}),
-                                          .A_2D({1'b0,    NRD,     1'b1,   !ADDR[0], 1'b1,    ADDR[0], OBJ_PAL_SEL_R, ADDR[9],
+                                          .A_2D({1'b0,    NRD,     1'b1,   ~ADDR[0], 1'b1,    ADDR[0], OBJ_PAL_SEL_R, ADDR[9],
                                                  CC_R[7], ADDR[8], CC_R[6], ADDR[7], CC_R[5], ADDR[6], CC_R[4],       ADDR[5],
                                                  CC_R[3], ADDR[4], CC_R[2], ADDR[3], CC_R[1], ADDR[2], CC_R[0],       ADDR[1]}),
                                           .Y(IDX_Q));
