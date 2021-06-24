@@ -9,7 +9,8 @@ traces/
 .DS_Store
 
 #ignore binary rom files
-*.hex
 *.mem
 875b??.*
+875b??_???.hex
+
 
