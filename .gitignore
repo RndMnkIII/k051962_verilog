@@ -12,5 +12,7 @@ traces/
 *.mem
 875b??.*
 875b??_???.hex
+PROM_H14
+
 
 
