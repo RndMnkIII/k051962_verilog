@@ -1,6 +1,6 @@
 #ignore generated trace data folder and trace files 
 traces/
-*.vpp
+*.vvp
 *.lxt
 *.vcd
 

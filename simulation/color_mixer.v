@@ -31,13 +31,13 @@ module color_mixer(
     input WRP,
     input NOBJ,
     input [7:0] OBJ,
-    input [2:1] OBP,
+    input [2:0] OBP,
 
     //CPU bus interface
     input [9:0] ADDR,
     inout [7:0] DATA,
     input NRD,
-    input CRAMCS
+    input CRAMCS,
 
     //Color output
     output [15:0] COLOR_WD,
@@ -48,12 +48,13 @@ module color_mixer(
 );
 
     wire H14_Q0, H14_Q1; //Priority selection signals for the 4:1 MUXes
-    PRIO h14(ADDR({1'b0, OBP[0], OBP[1], OBP[2], NFIX, NOBJ, NVB, NVA}), .EN1n(1'b0),.EN2n(1'b0), .Q0(H14_Q0), .Q1(H14_Q1));
+    PRIO h14(.ADDR({1'b0, OBP[0], OBP[1], OBP[2], NFIX, NOBJ, NVB, NVA}),
+             .EN1n(1'b0),.EN2n(1'b0), .Q0(H14_Q0), .Q1(H14_Q1));
 
     //Priority 4:1 MUXes
     wire [7:0] PRIO_OUT;
     //ICs: LS153 G13,G12,H13,I13
-    ttl_74153 PRIO_MUXES #(BLOCKS = 8)(.ENn({8{1'b0}}), //7:0
+    ttl_74153 #(.BLOCKS(8)) PRIO_MUXES(.ENn({8{1'b0}}), 
                                        .SEL({H14_Q1, H14_Q0}), //1:0
                                        .A_2D({ 1'b0, OBJ[7], 1'b1,  1'b0,
                                                1'b0, OBJ[6], 1'b0,  1'b1,
@@ -62,7 +63,7 @@ module color_mixer(
                                               FI[3], OBJ[3], SB[3], SA[3],
                                               FI[2], OBJ[2], SB[2], SA[2],
                                               FI[1], OBJ[1], SB[1], SA[1],
-                                              FI[0], OBJ[0], SB[0], SA[0],}), //31:0
+                                              FI[0], OBJ[0], SB[0], SA[0]}), //31:0
                                        .Y(PRIO_OUT));
     wire OBJ_PAL_SEL; //LS08: seleccionamos cuando utilizamos los 256 colores de paleta mas altos para los sprites
     assign #5 OBJ_PAL_SEL = ~H14_Q0 & H14_Q1;
@@ -90,7 +91,7 @@ module color_mixer(
     wire [11:0] IDX_Q;
     wire CRMOE; //Output enable for CRAM
     
-    ttl_74157 CPU_PRIO_SEL #(BLOCKS = 12)(.ENn(1'b0),
+    ttl_74157 #(.BLOCKS(12)) CPU_PRIO_SEL(.ENn(1'b0),
                                           .SEL({CRAMCS}),
                                           .A_2D({1'b0,    NRD,     1'b1,   ~ADDR[0], 1'b1,    ADDR[0], OBJ_PAL_SEL_R, ADDR[9],
                                                  CC_R[7], ADDR[8], CC_R[6], ADDR[7], CC_R[5], ADDR[6], CC_R[4],       ADDR[5],
@@ -114,7 +115,7 @@ module color_mixer(
                  .CEn(1'b0), .OEn(CRMOE), .WEn(CLWR1), .DATA(W15_8));
     
     //CRAM IC E14 odd bytes of a color (16bits).
-    CRAM_E14 E14(.ADDR({IDX_Q[5], IDX_Q[0], IDX_Q[6], IDX_Q[8], IDX_Q[7], IDX_Q[3], IDX_Q[2], IDX_Q[4], IDX_Q[1]}}),
+    CRAM_E14 E14(.ADDR({IDX_Q[5], IDX_Q[0], IDX_Q[6], IDX_Q[8], IDX_Q[7], IDX_Q[3], IDX_Q[2], IDX_Q[4], IDX_Q[1]}),
                  .CEn(1'b0), .OEn(CRMOE), .WEn(CLWR2), .DATA(W7_0));
 
         //ICs: LS174 D15,D14

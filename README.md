@@ -41,6 +41,21 @@ load the `k051962_GFX_ROM_interface_tb.gtkw` file into GTKWave to show a layout 
 
 !["GFX Data to k051962 Test Bench"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/gtkwave_GFX_DATA_TO_K051962_TESTBENCH.png)
 
+## Color mixer simulation:
+Color mixer ONLY simulation, without connection to 051962 tile layers generator. The Color mixer circuitry uses an AM27S21A EPROM IC as priority decoder:
+
+!["AMD AM27S21A"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/PRIORITY_PROM.png)
+
+```
+iverilog -o color_mixer_tb.vvp color_mixer_tb.v color_mixer.v prio.v ttl_ic.v cram_e14.v cram_e15.v
+vvp color_mixer_tb.vvp -lxt2
+gtkwave color_mixer_tb.lxt&
+```
+
+Open the `color_mixer.raw`file with Gimp as brute image data RGB 288x224.
+
+!["color_mixer.raw"](https://github.com/RndMnkIII/k051962_verilog/blob/main/img/COLOR_MIXER_OUTPUT.png)
+
 Any suggestion or improvement will be welcome!
 
 

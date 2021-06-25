@@ -45,7 +45,7 @@ module PRIO(
     end
 
     //MODEL Address Access Time of 30ns
-    assign #30 d0 = (!En1n && !EN2n) ? priodata[ADDR] : 4'hZ;
+    assign #30 d0 = (!EN1n && !EN2n) ? priodata[ADDR] : 4'hZ;
     assign Q0 = d0[0];
     assign Q1 = d0[1];
     assign Q2 = d0[2];
