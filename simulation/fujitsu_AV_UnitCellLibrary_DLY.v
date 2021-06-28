@@ -1,11 +1,15 @@
-/****************************************************************
- * Convenient verilog templates of Fujitsu AV Series            *
- * Unit Cell Modules for simulation. For more info see:         *
- * Fujitsu CMOS Channeled Gate Arrays Data Book (1989)          *
- * Author: @RndMnkIII                                           *
- * Repository: https://github.com/RndMnkIII/k051962_verilog     *
- * Version: 1.0 16/06/2021                                      *
- ***************************************************************/
+/*****************************************************************
+ * Convenient verilog templates of Fujitsu AV Series             *
+ * Unit Cell Modules for simulation. For more info see:          *
+ * Fujitsu CMOS Channeled Gate Arrays Data Book (1989)           *
+ * Author: @RndMnkIII                                            *
+ * Repository: https://github.com/RndMnkIII/k052109_verilog      *
+ *                                                               *
+ * - Version: 1.0 16/06/2021 Initial.                            *
+ * - Version: 1.1 28/06/2021 Added VSCode snippets for Logic     *
+ *                           Cells and more modules:T5A,T2C,T2B. *
+ *                                                               *
+ ****************************************************************/
 
 `default_nettype none
 `timescale 1ns/1ps
@@ -43,6 +47,14 @@ module H6T_DLY ( input IN,
     assign IN = X;
     assign X = (Cn) ? 1'bZ : OT;
 endmodule
+
+//Cell Name: BD3
+//Function: Buffer Delay Cell 
+//to:11.80-11.76ns A->X
+
+//Cell Name: BD5
+//Function: Buffer Delay Cell 
+//to:22.18-18.78ns A->X
 
 //Cell Name: K2B
 //Function: Power Clock Buffer
@@ -100,6 +112,10 @@ endmodule
 //Function: POWER 4-input NAND
 //to: 2.35-2.38ns A->X
 
+//Cell Name: N6B
+//Function: POWER 6-input NAND
+//to: 2.18-2.83ns A->X
+
 //Cell Name: R2P
 //Function: POWER 2-input OR
 //to: 1.08-1.97ns A->X
@@ -112,6 +128,15 @@ endmodule
 //Function: 2-input NOR
 //to: 0.23-0.87ns A->X
 
+//Cell Name: KCB
+//Function: Block Clock Buffer (Non-Inv)
+//to: 2.26-3.31ns A->X
+
+//Cell Name: K3B
+//Function: Gated Clock Buffer (AND) X = A1 & A2
+//to: 1.34-1.45ns A->X
+
+
 //Cell Name: C43
 //Function: 4-bit Binary Synchronous Up Counter
 //CK->CO to=12.44-13.40ns
@@ -119,7 +144,6 @@ endmodule
 //CI->CO to=2.94-3.04ns
 //CL->Q to=5.54ns
 //CL->CO to=9.61ns
-
 module C43_DLY ( input CK,
              input CLn,
              input Ln,
@@ -218,6 +242,51 @@ module FDN_DLY 	( input D,
             Q <= #6.10 D;
 endmodule
 
+//Cell Name: FDO
+//Function: DFF with RESET
+//to: 5.96-5.16ns
+module FDO_DLY 	( input D,
+              input Rn,
+              input CK,
+              output reg Q,
+              output Qn);
+	
+    assign #0.55 Qn = ~Q;
+
+	always @ (posedge CK or negedge Rn) 
+        if (!Rn)
+            Q <= #5.96 0;
+        else
+            Q <= #5.96 D;
+endmodule
+
+//Cell Name: FDQ
+//Function: 4-bit DFF falling edge clock
+//to: 8.32-6.58ns
+module FDQ_DLY 	( input [3:0] D,
+              input CKn,
+              output reg [3:0] Q);
+
+	always @ (negedge CKn) 
+        Q <= #8.32 D;
+endmodule
+
+//Cell Name: FDR
+//Function: 4-bit DFF with clear
+//to: 8.36-6.68ns CK->Q
+//to: 3.52 CL->Q
+module FDR_DLY 	( input [3:0] D,
+              input CLn,
+              input CK,
+              output reg [3:0] Q);
+	
+	always @ (posedge CK or negedge CLn) begin
+        if (!CLn)
+            Q <= #3.52 0;
+        else
+            Q <= #8.36 D;
+    end
+endmodule
 
 //Cell Name: LT2
 //Function: 1-bit Data Latch
@@ -228,24 +297,49 @@ endmodule
 
 //Function Table:
 //   Inputs      Outputs
-//-------------------------
-//|  D  G  |  Q   Qn   | 
-//-------------------------
-//|  H  H  |  L   H    |
-//|  L  H  |  Q0  Qn0  |
-//|  H  L  |  H   L    |
-//|  L  L  |  L   H    |
-//-------------------------
+//-----------------------
+//|  D  Gn  |  Q   Qn   | 
+//-----------------------
+//|  X  H  |  Q0  Qn0   |
+//|  D  L  |  D    Dn   |
+//-----------------------
 module LT2_DLY ( input D,
-             input Gn,
-             output reg Q,
-             output Qn);
-
-      assign #0.85 Qn = ~Q; //3.94 - 3.09
+                 input Gn,
+                 output reg Q,
+                 output Qn);
+      assign Qn = ~Q;
 
       always @*  
         if (!Gn) begin
-            Q <= #3.09 D; 
+            Q <= #3.94 D; 
+        end
+endmodule
+
+
+//Cell Name: LTK
+//Function: 1-bit Data Latch
+//Gn->Q to: 5.35-3.61ns
+//Gn->Qn to: 4.41-6.11ns
+//D->Q to: 1.42-1.63ns
+//D->Qn to: 2.43-2.18ns
+
+//Function Table:
+//   Inputs      Outputs
+//-----------------------
+//|  D  Gn  |  Q   Qn   | 
+//-----------------------
+//|  X  H  |  Q0  Qn0   |
+//|  D  L  |  D    Dn   |
+//-----------------------
+module LTK_DLY ( input D,
+                 input Gn,
+                 output reg Q,
+                 output Qn);
+      assign Qn = ~Q;
+
+      always @*  
+        if (!Gn) begin
+            Q <= #6.11 D; 
         end
 endmodule
 
@@ -262,10 +356,9 @@ endmodule
 //-------------------------
 //| CL  D  G  |  Q   Qn   | 
 //-------------------------
-//| *L  X  H  |  L   H    |
-//|  H  X *H  |  Q0  Qn0  |
-//|  H  H *L  |  H   L    |
-//|  H  L *L  |  L   H    |
+//|  L  X  H  |  L   H    |
+//|  H  X  H  |  Q0  Qn0  |
+//|  H  D  L  |  D   Dn   |
 //-------------------------
 module LTL_DLY ( input D,
              input Gn,
@@ -273,11 +366,175 @@ module LTL_DLY ( input D,
              output reg Q,
              output Qn);
 
-      assign #0.55 Qn = ~Q;
+      assign Qn = ~Q;
 
       always @*  
-        if (!CLn & Gn)  //The function table states that must be Gn == H and CLn == L to Clear the register
+        if (~CLn & Gn)  //The function table states that must be Gn == H and CLn == L to Clear the register
             Q  <= #2.20 0;  
-        else if (!Gn)  
-            Q <= #6.24 D;  
+        else if (CLn & ~Gn)
+            Q <= #6.25 D;  
+endmodule
+
+//Cell Name: T5A
+//Function: 4:1 Selector
+//A,B->X to: 1.48-1.13ns
+//S1-S4->X to: 3.22-1.25ns
+//S5-S6->X to: 2.63-0.70ns
+
+//Function Table:
+//                   Inputs                 Output
+//-------------------------------------------------
+//| A1  A2  B1  B2 S1n  S2 S3n  S4 S5n  S6  |  Xn | 
+//-------------------------------------------------
+//|  X   X   X   X   X   X   X   X   L   L  | Inh |?
+//|  X   X   X   X   X   X   X   X   H   H  | Inh |?
+//|  H   L           L   L                  | Inh |       
+//|  L   H           L   L                  | Inh |       
+//|  H   L           H   H                  | Inh |       
+//|  L   H           H   H                  | Inh |
+//|          L   H           L   L          | Inh |
+//|          H   L           L   L          | Inh |
+//|          L   H           H   H          | Inh |
+//|          H   L           H   H          | Inh |
+//| A1   X   X   X   L   H   X   X   L   H  | ~A1 |
+//|  X  A2   X   X   H   L   X   X   L   H  | ~A2 |
+//|  X   X  B1   X   X   X   L   H   H   L  | ~B1 |
+//|  X   X   X  B2   X   X   H   L   H   L  | ~B2 |
+//-------------------------------------------------
+//(A1 != A2 -> S1 == S2) OR S5==S6 Inhibit
+//(B1 != B2 ->S3 == S4) OR S5==S6 Inhibit
+//(A1,A2 != B1,B2) OR S5==S6 Inhibit
+module T5A_DLY ( input A1,
+                 input A2,
+                 input B1,
+                 input B2,
+                 input S1n,
+                 input S2,
+                 input S3n,
+                 input S4,
+                 input S5n,
+                 input S6,
+                 output Xn);
+    wire [5:0] sel;
+    wire out;
+
+    assign sel = {S6, S5n, S4, S3n, S2, S1n};
+    always @ * begin
+        case (sel)
+            6'b10xx10: out = ~A1;
+            6'b10xx01: out = ~A2;
+            6'b0110xx: out = ~B1;
+            6'b0101xx: out = ~B2;
+            default: begin
+                $display("<<<T5A Inhibit?>>>");
+                out = 1'bZ; //inhibit?
+            end
+        endcase
+    end
+    assign #3.22 Xn = out
+endmodule
+
+//Cell Name: T2B
+//Function: 2:1 Selector
+//A,B->X to: 0.87-0.62ns
+//S1-S2->X to: 1.39-3.09ns
+
+//Function Table:
+//      Inputs        Output
+//---------------------------
+//|  A   B   S1n  S2  |  Xn | 
+//---------------------------
+//|  A   X    L    H  |  ~A |
+//|  X   B    H    L  |  ~B |
+//|  L   H    L    L  | Inh |
+//|  H   L    L    L  | Inh |
+//|  L   H    H    H  | Inh |
+//|  H   L    H    H  | Inh |
+//---------------------------
+module T2B_DLY ( input A,
+                 input B,
+                 input S1n,
+                 input S2,
+                 output Xn);
+    wire [3:0] sel;
+    wire out;
+
+    assign sel = {S2, S1n, B, A};
+    always @ * begin
+        case (sel)
+            4'b10xx: out = ~A;
+            4'b01xx: out = ~B;
+            4'b0010: begin
+                $display("<<<T2B Inhibit>>>");
+                out = 1'bZ; //inhibit
+            end
+            4'b0001: begin
+                $display("<<<T2B Inhibit>>>");
+                out = 1'bZ; //inhibit
+            end
+            4'b1110: begin
+                $display("<<<T2B Inhibit>>>");
+                out = 1'bZ; //inhibit
+            end
+            4'b1101: begin
+                $display("<<<T2B Inhibit>>>");
+                out = 1'bZ; //inhibit
+            end
+            default: begin
+                $display("<<<T2B x?>>>");
+                out = 1'bZ; //x??
+            end 
+        endcase
+    end
+    assign #3.09 Xn = out
+endmodule
+
+//Cell Name: T2C
+//Function: Dual 2:1 Selector
+//A,B->X to: 0.87-0.62ns
+//S1-S2->X to: 1.39-3.09ns
+
+//Function Table:
+//        Inputs             Output
+//------------------------------------
+//|A1,B1  A2,B2  S1n  S2  |  X0n  X1n| 
+//------------------------------------
+//|A1,B1    X      L   H  |  ~A1 ~B1 |
+//|  X    A2,B2    H   L  |  ~A2 ~B2 |
+//|  L      H      L   L  |  Inh Inh |
+//|  H      L      L   L  |  Inh Inh |
+//|  L      H      H   H  |  Inh Inh |
+//|  H      L      H   H  |  Inh Inh |
+//------------------------------------
+module T2C_DLY ( input A1,
+                 input A2,
+                 input B1,
+                 input A2,
+                 input S1n,
+                 input S2,
+                 output X0n,
+                 output X1n);
+    wire [1:0] sel;
+    wire out0, out1;
+
+    assign sel = {S2, S1n};
+    always @ * begin
+        case (sel)
+            2'b10: begin
+                out0 = ~A1;
+                out1 = ~B1;
+            end
+            2'b01: begin
+                out0 = ~A2;
+                out1 = ~B2;
+            end
+            default: begin
+                    $display("<<<T2C inhibit>>>");
+                    out0 = 1'bZ;
+                    out1 = 1'bZ;
+            end
+        endcase
+    end
+    assign #3.09 Xn0 = out0
+    assign #3.09 Xn1 = out1
 endmodule
