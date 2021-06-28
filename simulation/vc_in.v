@@ -7,6 +7,8 @@
  * Repository: https://github.com/RndMnkIII/k051962_verilog     *
  * Version: 1.0 16/06/2021                                      *
  ***************************************************************/
+`default_nettype none
+`timescale 1ns/1ps
 
  module VC_IN_DLY ( input DIN,
                  input SEL1,
