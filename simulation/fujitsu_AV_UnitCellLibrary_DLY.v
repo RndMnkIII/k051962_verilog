@@ -3,11 +3,11 @@
  * Unit Cell Modules for simulation. For more info see:          *
  * Fujitsu CMOS Channeled Gate Arrays Data Book (1989)           *
  * Author: @RndMnkIII                                            *
+ * Repository: https://github.com/RndMnkIII/k051962_verilog      *
  * Repository: https://github.com/RndMnkIII/k052109_verilog      *
  *                                                               *
  * - Version: 1.0 16/06/2021 Initial.                            *
- * - Version: 1.1 28/06/2021 Added VSCode snippets for Logic     *
- *                           Cells and more modules:T5A,T2C,T2B. *
+ * - Version: 1.1 01/07/2021 Updated and bug fixed               *
  *                                                               *
  ****************************************************************/
 
@@ -104,6 +104,10 @@ endmodule
 //Function: POWER 3-input AND
 //to: 1.82-1.61ns A->X
 
+//Cell Name: N4P
+//Function: POWER 4-input AND
+//to: 2.15-1.72ns A->X
+
 //Cell Name: N2B
 //Function: POWER 2-input NAND
 //to: 2.03-1.73ns A->X
@@ -115,6 +119,26 @@ endmodule
 //Cell Name: N6B
 //Function: POWER 6-input NAND
 //to: 2.18-2.83ns A->X
+
+//Cell Name: R2B
+//Function: POWER 2-input NOR
+//to: 1.08-1.97ns A->X
+
+//Cell Name: R3B
+//Function: POWER 3-input NOR
+//to: 3.65-1.61ns A->X
+
+//Cell Name: R4B
+//Function: POWER 4-input NOR
+//to: 4.66-1.61ns A->X
+
+//Cell Name: R6B
+//Function: POWER 6-input NOR
+//to: 3.80-1.79ns A->X
+
+//Cell Name: R8B
+//Function: POWER 8-input NOR
+//to: 4.81-1.79ns A->X
 
 //Cell Name: R2P
 //Function: POWER 2-input OR
@@ -136,6 +160,9 @@ endmodule
 //Function: Gated Clock Buffer (AND) X = A1 & A2
 //to: 1.34-1.45ns A->X
 
+//Cell Name: K4B
+//Function: Gated Clock Buffer (OR) X = A1 | A2
+//to: 1.39-3.07ns A->X
 
 //Cell Name: C43
 //Function: 4-bit Binary Synchronous Up Counter
@@ -172,6 +199,20 @@ endmodule
 //Propagation delay: A,B -> X to: 0.48-1.66ns
 module D24_DLY (input A1, input A2, input B1, input B2, output X);
     assign #1.66 X = ~((A1 & A2) | (B1 & B2));
+endmodule
+
+//Cell Name: T24
+//Function: Power 2-AND 4-wide Multiplexer
+//Propagation delay: A,B -> X to: 3.51-2.10ns
+module T24_DLY (input A1, input A2, input B1, input B2, input C1, input C2, input D1, input D2, output X);
+    assign #3.51 X = ~((A1 & A2) | (B1 & B2) | (C1 & C2) | (D1 & D2));
+endmodule
+
+//Cell Name: T34
+//Function: Power 3-AND 4-wide Multiplexer
+//Propagation delay: A,B -> X to: 3.25-2.58ns
+module T34_DLY (input A1, input A2, input A3, input B1, input B2, input B3, input C1, input C2, input C3, input D1, input D2, input D3, output X);
+    assign #3.25 X = ~((A1 & A2 & A3) | (B1 & B2 & B3) | (C1 & C2 & C3) | (D1 & D2 & D3));
 endmodule
 
 //Cell Name: FDE
@@ -288,6 +329,17 @@ module FDR_DLY 	( input [3:0] D,
     end
 endmodule
 
+//Cell Name: FDS
+//Function: Positive Edge Clocked 4-bit DFF
+//to: 5.96-7.66ns
+module FDS_DLY 	( input [3:0] D,
+              input CK,
+              output reg [3:0] Q);
+
+	always @ (posedge CK) 
+        Q <= #7.66 D;
+endmodule
+
 //Cell Name: LT2
 //Function: 1-bit Data Latch
 //Gn->Q to: 1.84-3.09ns
@@ -315,6 +367,36 @@ module LT2_DLY ( input D,
         end
 endmodule
 
+//Cell Name: LT4
+//Function: 4-bit Data Latch
+//Gn->P to: 6.74-5.00ns
+//Gn->N to: 5.80-7.50ns
+//D->P to: 1.42-1.63ns
+//D->N to: 2.43-2.18ns
+
+//Function Table:
+//   Inputs      Outputs
+//-----------------------
+//|  D  Gn  |  P   N    | 
+//-----------------------
+//|  X  H  |  P0   N0   |
+//|  H  L  |  H    L    |
+//|  L  L  |  L    H    |
+//-----------------------
+module LT4_DLY ( input [3:0] D,
+                 input Gn,
+                 output reg [3:0] P,
+                 output [3:0] N);
+      assign N[0] = ~P[0];
+      assign N[1] = ~P[1];
+      assign N[2] = ~P[2];
+      assign N[3] = ~P[3];
+
+      always @*  
+        if (!Gn) begin
+            P <= #7.50 D; 
+        end
+endmodule
 
 //Cell Name: LTK
 //Function: 1-bit Data Latch
@@ -416,7 +498,7 @@ module T5A_DLY ( input A1,
                  input S6,
                  output Xn);
     wire [5:0] sel;
-    wire out;
+    reg out;
 
     assign sel = {S6, S5n, S4, S3n, S2, S1n};
     always @ * begin
@@ -431,7 +513,7 @@ module T5A_DLY ( input A1,
             end
         endcase
     end
-    assign #3.22 Xn = out
+    assign #3.22 Xn = out;
 endmodule
 
 //Cell Name: T2B
@@ -457,7 +539,7 @@ module T2B_DLY ( input A,
                  input S2,
                  output Xn);
     wire [3:0] sel;
-    wire out;
+    reg out;
 
     assign sel = {S2, S1n, B, A};
     always @ * begin
@@ -486,7 +568,7 @@ module T2B_DLY ( input A,
             end 
         endcase
     end
-    assign #3.09 Xn = out
+    assign #3.09 Xn = out;
 endmodule
 
 //Cell Name: T2C
@@ -509,13 +591,13 @@ endmodule
 module T2C_DLY ( input A1,
                  input A2,
                  input B1,
-                 input A2,
+                 input B2,
                  input S1n,
                  input S2,
                  output X0n,
                  output X1n);
     wire [1:0] sel;
-    wire out0, out1;
+    reg out0, out1;
 
     assign sel = {S2, S1n};
     always @ * begin
@@ -535,6 +617,128 @@ module T2C_DLY ( input A1,
             end
         endcase
     end
-    assign #3.09 Xn0 = out0
-    assign #3.09 Xn1 = out1
+    assign #3.09 X0n = out0;
+    assign #3.09 X1n = out1;
+endmodule
+
+//Cell Name: A1N
+//Function: 1-BIT Full Adder
+//A,B->S to: 5.23-2.96ns
+//A,B->CO to: 1.85-2.13ns
+module A1N_DLY(
+    input A,
+    input B,
+    input CI,
+    output S,
+    output CO
+    );
+
+    assign #5.23 S = A ^ B ^ CI;
+    assign #2.13 CO = (A & B) | (CI & (A ^ B));
+endmodule
+
+//Cell Name: A2N
+//Function: 2-BIT Full Adder
+//A,B->S to: 5.23-2.96ns
+//A,B->CO to: 4.75-3.83ns
+module A2N_DLY(
+    input [1:0] A,
+    input [1:0] B,
+    input CI,
+    output [1:0] S,
+    output CO
+    );
+        //implemented as Fujitsu AV CMOS Logic Gate equivalent circuit
+        //the propagation delay was added to the final output signals S,CO
+        //and not for each logic gate.
+        //st1
+        wire gxy1; //NAND
+        assign gxy1 = ~(A[1] & B[1]);
+        wire gxy2; //NOR
+        assign gxy2 = ~(A[1] | B[1]);
+        wire gxy3; //NAND
+        assign gxy3 = ~(A[0] & B[0]);
+        wire gxy4; //NOR
+        assign gxy4 = ~(A[0] | B[0]);
+
+        //st2
+        wire gxx1; //NOT
+        assign gxx1 = ~gxy2;
+        wire gxx2; //AND
+        assign gxx2 = gxy3 & gxx4;
+        wire gxx3; //NOT
+        assign gxx3 = ~gxy4;
+        wire gxx4; //NOT
+        assign gxx4 = ~CI;
+
+        //st3
+        wire gxz1; //NAND
+        assign gxz1 = ~(gxy1 & gxx1);
+        wire gxz2; //NOR
+        assign gxz2 = ~(gxy4 | gxx2);
+        wire gxz3; //NAND
+        assign gxz3 = ~(gxy3 & gxx3);
+
+        //st4
+        wire gyy1; //NOT
+        assign gyy1 = ~gxz2;
+        wire gyy2; //NOT
+        assign gyy2 = ~gxz1;
+        wire gyy3; //NOT
+        assign gyy3 = ~gxz3;
+
+        //st5
+        wire gyx1; //AND
+        assign gyx1 = gxy1 & gyy1;
+        wire gyx2; //AND
+        assign gyx2 = gxz1 & gyy1;
+        wire gyx3; //AND
+        assign gyx3 = gyy2 & gxz2;
+        wire gyx4; //AND
+        assign gyx4 = CI & gyy3;
+        wire gyx5; //AND
+        assign gyx5 = gxz3 & gxx4;
+
+        //st6
+        wire gyz1; //NOR
+        assign gyz1 = ~(gyx1 | gxy2);
+        assign #4.75 CO = gyz1;
+
+        wire gyz2; //NOR
+        assign gyz2 = ~(gyx2 | gyx3);
+        assign #5.23 S[1] = gyz2;
+
+        wire gyz3; //NOR
+        assign #5.23 gyz3 = ~(gyx4 | gyx5);
+        assign S[0] = gyz3;
+endmodule
+
+//Cell Name: A4H
+//Function: 4-BIT Full Adder
+//A,B->S to: 8.13-5.76ns
+//A,B->CO to: 5.64-7.19ns
+module A4H_DLY (input [3:0] A,
+               input [3:0] B,
+               input CI,
+               output [3:0] S,
+               output CO);   
+    wire [3:0] P,G;
+    wire [4:0] C;   
+        
+    //Uses CLA (Carry-Lookahead Adder) implementation.
+    
+    //first level
+    assign P = A ^ B;
+    assign G = A & B;
+
+    //second level
+    assign C[0] = CI;
+    assign C[1] = G[0] | (P[0] & CI);
+    assign C[2] = G[1] | (P[1] & G[0]) | (P[1] & P[0] & CI);
+    assign C[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]) | (P[2] & P[1] & P[0] & CI);
+    assign C[4] = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | (P[3] & P[2] & P[1] & G[0]) | (P[3] & P[2] & P[1] & P[0] & CI);
+
+    //third level
+    assign #8.13 S = P ^ C[3:0];
+    assign #7.19 CO = C[4];
 endmodule
